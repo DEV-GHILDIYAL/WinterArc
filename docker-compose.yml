@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:7.0-alpine
+    container_name: winterarc-mongo
+    restart: unless-stopped
+    # Internal docker network only - no port mapping exposed to host machine
+    volumes:
+      - winterarc-mongo-data:/data/db
+    networks:
+      - winterarc-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: winterarc-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/winterarc
+      - JWT_SECRET=winterarc_super_secret_jwt_key_2026
+      - CLIENT_ORIGIN=http://localhost:3000
+      - NODE_ENV=production
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - winterarc-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: winterarc-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - winterarc-network
+
+volumes:
+  winterarc-mongo-data:
+    driver: local
+
+networks:
+  winterarc-network:
+    driver: bridge
