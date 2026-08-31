@@ -35,6 +35,7 @@ services:
         condition: service_healthy
     networks:
       - winterarc-network
+      - edge
 
   frontend:
     build:
@@ -48,6 +49,7 @@ services:
       - backend
     networks:
       - winterarc-network
+      - edge
 
 volumes:
   winterarc-mongo-data:
@@ -56,3 +58,5 @@ volumes:
 networks:
   winterarc-network:
     driver: bridge
+  edge:
+    external: true
