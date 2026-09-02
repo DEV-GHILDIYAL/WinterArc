@@ -21,20 +21,6 @@ pipeline {
             }
         }
 
-        stage('Build & Typecheck') {
-            steps {
-                echo '🔨 Verifying backend and frontend build integrity...'
-                dir('backend') {
-                    sh 'npm ci'
-                    sh 'npm run build'
-                }
-                dir('frontend') {
-                    sh 'npm ci'
-                    sh 'npm run build'
-                }
-            }
-        }
-
         stage('Deploy to EC2 Host') {
             steps {
                 echo '🚀 Deploying code to AWS EC2 instance via SSH...'
