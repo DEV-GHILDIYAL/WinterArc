@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SSH_CREDENTIAL_ID = 'ec2-ssh-key'
+        SSH_CREDENTIAL_ID = 'app-server-ssh'
         APP_SERVER_IP     = '10.0.1.173'
         APP_SERVER_USER   = 'ubuntu'
         TARGET_DIR        = '/opt/apps/winterarc'
