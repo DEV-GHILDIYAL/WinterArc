@@ -40,8 +40,8 @@ pipeline {
                         ssh -o StrictHostKeyChecking=no \
                             ${APP_SERVER_USER}@${APP_SERVER_IP} "
                                 cd ${TARGET_DIR}
-                                docker-compose down --remove-orphans
-                                docker-compose up -d --build
+                                /usr/local/bin/docker-compose down --remove-orphans
+                                /usr/local/bin/docker-compose up -d --build
                                 docker image prune -f
                             "
                     '''
