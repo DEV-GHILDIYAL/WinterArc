@@ -6,7 +6,7 @@ pipeline {
         SSH_CREDENTIAL_ID = 'ec2-ssh-key'
         
         // Target EC2 App Server IP (replace with your App Server's IP address or set via Jenkins environment parameters)
-        APP_SERVER_IP     = '13.206.217.176'
+        APP_SERVER_IP = '10.0.1.173'
         APP_SERVER_USER   = 'ubuntu'
         
         // Path on EC2 instance where application files will reside (/opt/apps/winterarc)
